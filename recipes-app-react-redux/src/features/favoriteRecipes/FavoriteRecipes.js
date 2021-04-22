@@ -11,7 +11,6 @@ export const FavoriteRecipes = () =>{
   const dispatch = useDispatch();
 
   const onRemoveRecipeHandler = (recipe) => {
-    // Dispatch the action below.
     dispatch(removeRecipe(recipe));
   };
 

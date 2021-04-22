@@ -1,4 +1,4 @@
-import allRecipesData from '../../../data.js'
+import allRecipesData from '../../data.js'
 import { selectSearchTerm } from '../searchTerm/searchTermSlice.js';
 
 export const loadData = () => {

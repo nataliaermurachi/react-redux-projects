@@ -1,36 +1,38 @@
-import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { selectSearchTerm } from '../searchTerm/searchTermSlice.js';
 
-import { removeRecipe, selectFilteredFavoriteRecipes } from './favoriteRecipesSlice.js';
-import FavoriteButton from "../../components/FavoriteButton";
-import Recipe from "../../components/Recipe";
-const unfavoriteIconUrl = 'https://static-assets.codecademy.com/Courses/Learn-Redux/Recipes-App/icons/unfavorite.svg';
+const initialState = [];
+export const favoriteRecipesReducer = (favoriteRecipes = initialState, action) => {
+  switch (action.type) {
+    case 'favoriteRecipes/addRecipe':
+      return [...favoriteRecipes, action.payload]
+    case 'favoriteRecipes/removeRecipe':
+      return favoriteRecipes.filter(recipe => recipe.id !== action.payload.id)
+    default:
+      return favoriteRecipes;
+  }
+}
 
-export const FavoriteRecipes = () =>{
-  const favoriteRecipes = useSelector(selectFilteredFavoriteRecipes);
-  const dispatch = useDispatch();
+export function addRecipe(recipe) {
+  return {
+    type: 'favoriteRecipes/addRecipe',
+    payload: recipe
+  }
+}
 
-  const onRemoveRecipeHandler = (recipe) => {
-    dispatch(removeRecipe(recipe));
-  };
+export function removeRecipe(recipe) {
+  return {
+    type: 'favoriteRecipes/removeRecipe',
+    payload: recipe
+  }
+}
 
-  return (
-    <div className="recipes-container">
-      {favoriteRecipes.map(createRecipeComponent)}
-    </div>
+export const selectFavoriteRecipes = (state) => state.favoriteRecipes;
+
+export const selectFilteredFavoriteRecipes = (state) => {
+  const favoriteRecipes = selectFavoriteRecipes(state);
+  const searchTerm = selectSearchTerm(state);
+
+  return favoriteRecipes.filter((recipe) =>
+    recipe.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
-
-  // Helper Function
-  function createRecipeComponent(recipe) {
-    return (
-      <Recipe recipe={recipe} key={recipe.id}>
-        <FavoriteButton
-          onClickHandler={() => onRemoveRecipeHandler(recipe)}
-          icon={unfavoriteIconUrl}
-        >
-          Remove Favorite
-        </FavoriteButton>
-      </Recipe>
-    )
-  } 
 };

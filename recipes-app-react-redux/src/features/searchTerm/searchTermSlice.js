@@ -23,3 +23,5 @@ export function clearSearchTerm() {
     type: 'searchTerm/clearSearchTerm'
   }
 }
+
+export const selectSearchTerm = (state) => state.searchTerm;

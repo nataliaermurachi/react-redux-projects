@@ -9,7 +9,7 @@ export const loadData = () => {
 }
 
 const initialState = [];
-export const allRecipesReducer = (allRecipes = initialState, action) => {
+const allRecipesReducer = (allRecipes = initialState, action) => {
   switch (action.type) {
     case 'allRecipes/loadData':
       return action.payload;
@@ -32,3 +32,5 @@ export const selectFilteredAllRecipes = (state) => {
     recipe.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 };
+
+export default allRecipesReducer;
